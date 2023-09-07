@@ -14,14 +14,6 @@ class WorkoutTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 3.0.w),
       height: 15.0.h,
       width: double.infinity,
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //    // border: Border.all(color: Colors.black),
-      //     borderRadius: BorderRadius.circular(5.0.w),
-      //     boxShadow: [
-      //       BoxShadow(
-      //           color: Colors.grey.shade200, spreadRadius: 5, blurRadius: 5)
-      //     ]),
       child: Row(
         children: [
           Expanded(
@@ -81,19 +73,6 @@ class WorkoutTile extends StatelessWidget {
                   ],
                 ),
               )),
-          // Expanded(
-          //     flex: 3,
-          //     child: Container(
-          //       decoration: BoxDecoration(
-          //           color: Colors.grey.shade100,
-          //           image: DecorationImage(
-          //               image: NetworkImage(
-          //                 model.gifUrl!,
-          //               ),
-          //               fit: BoxFit.cover),
-          //           borderRadius: BorderRadius.circular(4.0.w)),
-          //       height: 15.0.h,
-          //     ))
         ],
       ),
     );

@@ -21,6 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final APIservices _webservices = APIservices();
   List<ExcerciseListModel> _allExcersize = [];
   bool loading = true;
+  List<String> items =
+      []; // Your list of items fetched from the API // Number of items to display initially
+  bool showLoadMoreButton = true;
+  bool isLoadingMore = false;
+  int visibleItemCount = 10;
+  // Whether to show the "Load More" button
 
   fetchData() async {
     await _webservices.fetchAllExcersize().then((value) {
@@ -32,6 +38,16 @@ class _HomeScreenState extends State<HomeScreen> {
         loading = false;
       }
       setState(() {});
+    });
+  }
+
+  void loadMoreData() {
+    // Simulating API call or loading more data from a data source
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        visibleItemCount += 10; // Increase the visibleItemCount by 10
+        isLoadingMore = false;
+      });
     });
   }
 
@@ -53,49 +69,89 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        width: 100.0.w,
-        height: 100.0.h,
-        padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            // SizedBox(
-            //   height: MediaQuery.of(context).padding.top + 2.0.h,
-            // ),
-            // Text(
-            //   "Exercises",
-            //   style: KStyles.superHeading,
-            // ),
-            Expanded(
-              child: loading
-                  ? ListView.builder(
-                      padding: EdgeInsets.only(top: 3.0.h),
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      itemBuilder: (context, index) => getShimmerPlaceholder())
-                  : ListView.builder(
-                      padding: EdgeInsets.only(top: 3.0.h),
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _allExcersize.length,
-                      itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              Get.to(
-                                  () => DetailScreen(
-                                      id: _allExcersize[index].id ?? "-1"),
-                                  transition: Transition.fadeIn);
-                            },
-                            child: WorkoutTile(
-                              model: _allExcersize[index],
-                            ),
-                          )),
-            )
-          ],
-        ),
-      ),
+          width: 100.0.w,
+          height: 100.0.h,
+          padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              // SizedBox(
+              //   height: MediaQuery.of(context).padding.top + 2.0.h,
+              // ),
+              // Text(
+              //   "Exercises",
+              //   style: KStyles.superHeading,
+              // ),
+              Expanded(
+                  child: loading
+                      ? ListView.builder(
+                          padding: EdgeInsets.only(top: 3.0.h),
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: visibleItemCount,
+                          itemBuilder: (context, index) =>
+                              getShimmerPlaceholder(),
+                        )
+                      :
+                      // ListView.builder(
+                      //     padding: EdgeInsets.only(top: 3.0.h),
+                      //     physics: const BouncingScrollPhysics(),
+                      //     shrinkWrap: true,
+                      //     itemCount: 10,
+                      //     itemBuilder: (context, index) {
+                      //       return GestureDetector(
+                      //         onTap: () {
+                      //           Get.to(
+                      //             () => DetailScreen(
+                      //                 id: _allExcersize[index].id ?? "-1"),
+                      //             transition: Transition.fadeIn,
+                      //           );
+                      //         },
+                      //         child: WorkoutTile(
+                      //           model: _allExcersize[index],
+                      //         ),
+                      //       );
+                      //     }),
+                      ListView.builder(
+                          padding: EdgeInsets.only(top: 3.0.h),
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: visibleItemCount +
+                              1, // Add 1 for the "Load More" button
+                          itemBuilder: (context, index) {
+                            if (index == visibleItemCount) {
+                              // Render the "Load More" button
+                              return ElevatedButton(
+                                child: Text('Load More'),
+                                onPressed: () {
+                                  if (!isLoadingMore) {
+                                    setState(() {
+                                      isLoadingMore = true;
+                                    });
+                                    loadMoreData();
+                                  }
+                                },
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailScreen(
+                                        id: _allExcersize[index].id ?? "-1"),
+                                    transition: Transition.fadeIn,
+                                  );
+                                },
+                                child: WorkoutTile(
+                                  model: _allExcersize[index],
+                                ),
+                              );
+                            }
+                          },
+                        )),
+            ],
+          )),
     );
   }
 

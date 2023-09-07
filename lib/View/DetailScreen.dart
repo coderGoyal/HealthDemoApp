@@ -103,23 +103,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               vertical: 2.0.h, horizontal: 5.0.w),
                           width: 100.0.w,
                           height: 55.0.h,
-                          // decoration: BoxDecoration(
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //           color: Colors.grey.shade200,
-                          //           spreadRadius: 5,
-                          //           blurRadius: 5)
-                          //     ],
-                          //     color: Colors.white,
-                          //     borderRadius: BorderRadius.only(
-                          //         topLeft: Radius.circular(8.0.w),
-                          //         topRight: Radius.circular(8.0.w))),
                           child: Column(
                             children: [
-                              Container(
-                                // decoration: BoxDecoration(
-                                //     color: Colors.grey.shade200,
-                                //     borderRadius: BorderRadius.circular(2.0.w)),
+                              SizedBox(
                                 height: 1.0.h,
                                 width: 30.0.w,
                               ),
